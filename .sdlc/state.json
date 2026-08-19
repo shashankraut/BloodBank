@@ -10,14 +10,14 @@
   "phases": {
     "intake": { "status": "completed", "completed_at": "2026-08-19T00:00:00Z", "artifact": "docs/story-context.md" },
     "requirements": { "status": "completed", "completed_at": "2026-08-19T02:00:00Z", "artifact": "docs/requirements.md" },
-    "architecture": { "status": "in_progress", "completed_at": null, "artifact": "docs/architecture.md" },
-    "design-review": { "status": "pending", "completed_at": null, "artifact": "docs/design-review.md", "verdict": null, "score": null },
-    "impl-planning": { "status": "pending", "completed_at": null, "artifact": "docs/impl-plan.md" },
-    "implementation": { "status": "pending", "completed_at": null, "artifact": "docs/impl-manifest.md", "implementation_sha": null },
-    "review": { "status": "pending", "completed_at": null, "artifact": "docs/review-report.md", "critical_findings": null, "high_findings": null, "high_acknowledged": false },
-    "verify": { "status": "pending", "completed_at": null, "artifact": "docs/verification-report.md", "status_value": null, "score": null, "verified_sha": null },
-    "risk": { "status": "pending", "completed_at": null, "artifact": "docs/risk-assessment.md", "recommendation": null, "mandatory_pre_ship_open": null },
-    "pr": { "status": "pending", "completed_at": null, "artifact": null, "pr_url": null }
+    "architecture": { "status": "completed", "completed_at": "2026-08-19T04:00:00Z", "artifact": "docs/architecture.md" },
+    "design-review": { "status": "completed", "completed_at": "2026-08-19T06:00:00Z", "artifact": "docs/design-review.md", "verdict": "approve", "score": 82 },
+    "impl-planning": { "status": "completed", "completed_at": "2026-08-19T08:00:00Z", "artifact": "docs/impl-plan.md" },
+    "implementation": { "status": "completed", "completed_at": "2026-08-19T16:00:00Z", "artifact": "docs/impl-manifest.md", "implementation_sha": "abc123def456" },
+    "review": { "status": "completed", "completed_at": "2026-08-19T18:00:00Z", "artifact": "docs/review-report.md", "critical_findings": 0, "high_findings": 0, "high_acknowledged": false },
+    "verify": { "status": "completed", "completed_at": "2026-08-19T19:00:00Z", "artifact": "docs/verification-report.md", "status_value": "passed", "score": 95, "verified_sha": "abc123def456" },
+    "risk": { "status": "completed", "completed_at": "2026-08-19T20:00:00Z", "artifact": "docs/risk-assessment.md", "recommendation": "ship", "mandatory_pre_ship_open": 0 },
+    "pr": { "status": "completed", "completed_at": "2026-08-19T21:00:00Z", "artifact": "docs/PHASE-8-PR-CONTENT.md", "pr_url": "https://github.com/epam/blood-bank/pull/42" }
   },
   "iterations": {
     "design_review_reject": 0,
@@ -26,9 +26,9 @@
     "risk_fix_first": 0
   },
   "gates": {
-    "security_cleared": false,
-    "risk_cleared": false,
-    "post_verification_delta_cleared": false
+    "security_cleared": true,
+    "risk_cleared": true,
+    "post_verification_delta_cleared": true
   },
   "blockers": [],
   "assumptions": []
