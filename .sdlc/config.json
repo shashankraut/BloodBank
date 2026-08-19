@@ -1,0 +1,73 @@
+{
+  "$comment": "Agentic SDLC pipeline configuration. No secrets, tokens, or credentials belong in this file.",
+  "version": 1,
+  "pipeline": {
+    "name": "Agentic SDLC Capstone Pipeline",
+    "entry_point": "@sdlc",
+    "phases": 8,
+    "docs_dir": "docs",
+    "templates_dir": ".github/templates",
+    "state_file": ".sdlc/state.json"
+  },
+  "story": {
+    "id_pattern": "^[A-Z][A-Z0-9]*(-[A-Z0-9]+)*$",
+    "default_id": "BLOOD-BANK-FEEDBACK",
+    "title": "User Feedback Form Feature for BloodBank",
+    "source": "confluence+github",
+    "source_ref": "https://shashankrautpersonal.atlassian.net/wiki/spaces/EliteaIntegration/pages/16711681/ + https://github.com/imShakil/BloodBank"
+  },
+  "git": {
+    "default_branch": "main",
+    "branch_pattern": "<STORY-ID>-<short-description>",
+    "pr_title_pattern": "<STORY-ID>: <Short description>",
+    "protected_branches": ["main", "master", "release"]
+  },
+  "stack": {
+    "mode": "auto",
+    "detected": "nodejs",
+    "test_command_unit": "npm test",
+    "test_command_integration": "npm run test:integration",
+    "lint_command": "npm run lint",
+    "detected_at": "2026-08-19T00:00:00Z"
+  },
+  "quality_gates": {
+    "design_review_min_score": 70,
+    "verification_min_score": 70,
+    "test_pass_rate_warn": 80,
+    "test_pass_rate_fail": 60,
+    "coverage_target": 80,
+    "block_on_security_severity": "critical",
+    "ack_required_security_severity": "high"
+  },
+  "iteration_limits": {
+    "design_review_reject": 3,
+    "security_fix": 2,
+    "verification_fail": 2,
+    "risk_fix_first": 3,
+    "requirements_interrogation_rounds": 3
+  },
+  "id_prefixes": {
+    "requirement": "REQ",
+    "acceptance_criterion": "AC",
+    "assumption": "ASM",
+    "edge_case": "EC",
+    "component": "COMP",
+    "decision": "ADR",
+    "task": "TASK",
+    "test": "TEST",
+    "finding": "FIND",
+    "failure_mode": "FM",
+    "risk": "RISK"
+  },
+  "integrations": {
+    "atlassian": {
+      "enabled": true,
+      "access": "read-only",
+      "write_requires_explicit_user_request": true
+    },
+    "hooks": {
+      "enabled": true,
+      "advisory_only": true
+    }
+  }
+}
