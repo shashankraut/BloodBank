@@ -15,6 +15,7 @@ import { ReportsPage } from "./pages/ReportsPage";
 import { StoryDetailPage } from "./pages/StoryDetailPage";
 import { StoriesPage } from "./pages/StoriesPage";
 import { SubmitContentPage } from "./pages/SubmitContentPage";
+import { FeedbackPage } from "./pages/FeedbackPage";
 import { TermsPage } from "./pages/TermsPage";
 import { UsersPage } from "./pages/UsersPage";
 
@@ -28,6 +29,7 @@ export function App() {
         <Route path="/stories" element={<StoriesPage />} />
         <Route path="/stories/:id" element={<StoryDetailPage />} />
         <Route path="/submit-content" element={<SubmitContentPage />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/admin/login" element={<LoginPage />} />
