@@ -65,3 +65,50 @@ export type ContentSubmission = {
   reviewedBy?: string;
   rejectionReason?: string;
 };
+
+export type FeedbackDraft = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  comment: string;
+};
+
+export type FeedbackFieldErrors = Partial<Record<keyof FeedbackDraft, string>>;
+
+export type FeedbackApiError = {
+  field: keyof FeedbackDraft;
+  message: string;
+};
+
+export type FeedbackApiSuccess = {
+  success: true;
+  message: string;
+  data: {
+    id: string;
+    timestamp: string;
+  };
+};
+
+export type FeedbackApiFailure = {
+  success: false;
+  message: string;
+  errors: FeedbackApiError[];
+};
+
+export type FeedbackSyncState = "PENDING" | "SYNCED" | "FAILED";
+
+export type FeedbackLocalRecord = FeedbackDraft & {
+  localId: string;
+  createdAt: number;
+  syncState: FeedbackSyncState;
+  remoteId?: string;
+};
+
+export type FeedbackSubmitResult =
+  | { ok: true; userMessage: string }
+  | {
+      ok: false;
+      reason: "VALIDATION" | "RATE_LIMITED" | "NETWORK" | "TIMEOUT" | "SERVER";
+      userMessage: string;
+      fieldErrors?: FeedbackFieldErrors;
+    };

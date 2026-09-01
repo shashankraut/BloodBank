@@ -18,6 +18,10 @@ const { onValueWritten } = require("firebase-functions/v2/database");
 
 initializeApp();
 
+const { feedbackSubmit } = require("./feedback");
+
+exports.feedbackSubmit = feedbackSubmit;
+
 // ---------------------------------------------------------------------------
 // Configuration
 // ---------------------------------------------------------------------------
@@ -255,6 +259,45 @@ exports.publishPublicLandingSnapshot = onSchedule(
       activeNow,
       recentPosts: recentPosts.length,
       newDonors: newDonors.length,
+    });
+  }
+);
+
+exports.cleanupFeedbackRateLimits = onSchedule(
+  {
+    schedule: "every day 04:00",
+    timeZone: "UTC",
+    retryCount: 1,
+    memory: "256MiB"
+  },
+  async () => {
+    const db = getDatabase();
+    const rootRef = db.ref("feedbackRateLimit");
+    const snapshot = await rootRef.once("value");
+    if (!snapshot.exists()) {
+      logger.info("cleanupFeedbackRateLimits: no data found");
+      return;
+    }
+
+    const cutoff = Math.floor(Date.now() / 3_600_000) - 24;
+    const updates = {};
+
+    snapshot.forEach((child) => {
+      const key = child.key || "";
+      const numeric = Number(key);
+      if (Number.isFinite(numeric) && numeric < cutoff) {
+        updates[key] = null;
+      }
+    });
+
+    if (Object.keys(updates).length === 0) {
+      logger.info("cleanupFeedbackRateLimits: no expired windows");
+      return;
+    }
+
+    await rootRef.update(updates);
+    logger.info("cleanupFeedbackRateLimits: cleaned windows", {
+      deletedWindowCount: Object.keys(updates).length
     });
   }
 );
