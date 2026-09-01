@@ -32,6 +32,7 @@ export function PublicHeader() {
           <Link to="/blogs">ব্লগ</Link>
           <Link to="/stories">স্টোরি</Link>
           <Link to="/submit-content">সাবমিট</Link>
+          <Link to="/feedback">ফিডব্যাক</Link>
           <Link to="/admin">এডমিন</Link>
           <Link to="/privacy-policy">প্রাইভেসি</Link>
           <Link to="/terms">শর্তাবলী</Link>
