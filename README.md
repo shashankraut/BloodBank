@@ -1,71 +1,161 @@
-# About
-“Blood Point” is an android application to collect or donate blood easily. Users who have an android phone & active internet connection can contact and start searching for a donor easily through this application. The purpose of this application is to help people belonging to rural areas.
+# Deployment Scripts
 
-# Features
-Easy contact between blood donor and blood recipient through this android application.<br>
-Included:
-- User Databases
-- User Login & Sign up
-- Donor Details
-- Finding blood group easily
-- Finding Near By Hospitals
-- Achievements & Rewards
-       
-# Tools used
-- Firebase Database
-- Firebase Authentication
-- Google Maps Api
-- Android Studio IDE
-- Android version 4.0 or later
-- Android SDK 17-28
-  
-# How to install?
+This directory contains deployment automation scripts for Firebase Cloud Functions.
 
-You can install this application to test on your android smartphone. To download the signed application go to your chrome browser and copy-paste the download link:
+## Available Scripts
 
+### 1. `deploy.sh` (Linux/Mac)
+
+Bash script for deploying functions with pre-deployment checks and post-deployment verification.
+
+**Usage:**
+```bash
+# Make executable (first time only)
+chmod +x functions/scripts/deploy.sh
+
+# Deploy to production (90 days retention)
+./functions/scripts/deploy.sh production
+
+# Deploy to staging (60 days retention)
+./functions/scripts/deploy.sh staging
+
+# Deploy to dev (30 days retention)
+./functions/scripts/deploy.sh dev
+
+# Dry run (no actual deployment)
+./functions/scripts/deploy.sh production --dry-run
+
+# Skip tests (not recommended)
+./functions/scripts/deploy.sh production --skip-tests
+
+# Deploy specific function only
+./functions/scripts/deploy.sh production --function-only=cleanupOldContactRequests
 ```
-https://github.com/imShakil/BloodBank/releases/latest/download/blood-point.apk
+
+### 2. `deploy.bat` (Windows)
+
+Batch script for deploying functions on Windows systems.
+
+**Usage:**
+```cmd
+REM Deploy to production (90 days retention)
+functions\scripts\deploy.bat production
+
+REM Deploy to staging (60 days retention)
+functions\scripts\deploy.bat staging
+
+REM Deploy to dev (30 days retention)
+functions\scripts\deploy.bat dev
+
+REM Dry run (no actual deployment)
+functions\scripts\deploy.bat production --dry-run
+
+REM Skip tests (not recommended)
+functions\scripts\deploy.bat production --skip-tests
 ```
 
-Download will be started automatically. After then install it on your android device.
-Open the application, create an account. That's it.
+## What the Scripts Do
 
-N.B: It supports only in android version 4.0 or later.
+### Pre-Deployment Checks
+1. ✅ Verify Firebase CLI is installed
+2. ✅ Check Firebase authentication status
+3. ✅ Verify Node.js version (20+)
+4. ✅ Confirm in correct directory
 
-# Preview:
-<img src="https://raw.githubusercontent.com/imShakil/BloodBank/master/spalsh.png" alt="Splash Screen" width="98" height="200" /> <img src="https://raw.githubusercontent.com/imShakil/BloodBank/master/bloodbank2.png" alt="Splash Screen" width="100" height="200" /> <img src="https://raw.githubusercontent.com/imShakil/BloodBank/master/bloodbank6.png" alt="Splash Screen" width="100" height="200" /> <img src="https://raw.githubusercontent.com/imShakil/BloodBank/master/bloodbank3.png" alt="Splash Screen" width="100" height="200" /> <img src="https://raw.githubusercontent.com/imShakil/BloodBank/master/bloodbank4.png" alt="Splash Screen" width="100" height="200" /> <img src="https://raw.githubusercontent.com/imShakil/BloodBank/master/bloodbank1.png" alt="Splash Screen" width="100" height="200" /> <img src="https://raw.githubusercontent.com/imShakil/BloodBank/master/bloodbank5.png" alt="Splash Screen" width="100" height="200" /> 
+### Deployment Process
+1. 📦 Install dependencies (`npm ci`)
+2. 🧪 Run tests (unless `--skip-tests`)
+3. 💾 Backup current configuration
+4. ⚠️  Ask for confirmation (unless `--dry-run`)
+5. 🚀 Deploy functions with environment-specific retention
+6. ✅ Verify deployment and save configuration
 
+### Environment-Specific Retention
 
+| Environment | Retention Period | Use Case |
+|-------------|-----------------|----------|
+| `dev` | 30 days | Development and testing |
+| `staging` | 60 days | Pre-production validation |
+| `production` | 90 days | Production environment |
 
-![](https://img.shields.io/github/stars/imshakil/BloodBank.svg)
-![](https://img.shields.io/github/forks/imshakil/BloodBank.svg)
-[![Views](https://hits.dwyl.com/imshakil/BloodBank.svg?style=flat-square&show=unique)](http://hits.dwyl.com/imshakil/BloodBank)
-![](https://img.shields.io/github/tag/imshakil/BloodBank.svg) 
-![](https://img.shields.io/github/v/release/imshakil/BloodBank.svg) 
-![](https://img.shields.io/github/issues/imshakil/BloodBank.svg)
+## Safety Features
 
-# Database Snapshot
-Follow this link: https://github.com/imShakil/BloodBank/wiki/Database-Snapshots
-(This project can be used for any educational purpose and can be changed or modified in need.<br><b> A star will be appriciated if you think it might be helpful.</b>)<br>
+- **Configuration Backup**: Automatically backs up Firebase configuration before deployment
+- **Test Execution**: Runs all tests before deployment (can be skipped with `--skip-tests`)
+- **Confirmation Prompt**: Requires explicit confirmation before deploying
+- **Dry Run Mode**: Preview deployment without executing (`--dry-run`)
+- **Post-Deployment Verification**: Saves configuration after deployment for audit trail
+- **Timestamped Backups**: All backups stored with timestamp in `functions/backups/`
 
-# Changing Database and Package Name
-I got so many mails on about 'How to change Database link and Package Name'. So, Who has queries can watch this video: https://www.youtube.com/watch?v=nAzAo7shGKQ&ab_channel=AnubhavAnand
+## Backup Location
 
+All backups are stored in:
+```
+functions/backups/YYYYMMDD_HHMMSS/
+├── config-before.json   # Configuration before deployment
+├── config-after.json    # Configuration after deployment (if deployed)
+└── project.txt          # Firebase project name
+```
 
-# Contribution
+## Troubleshooting
 
-If you would like to contribute in this project, you are always welcome. There is no `code` avilable in the `master` branch. Please `switch` specific version and make changes there. For example, the latest dev version is: https://github.com/imShakil/BloodBank/tree/2.1
-You must need to create pull request to that specific branch to get it merged.
+### Error: Firebase CLI not found
+```bash
+npm install -g firebase-tools
+```
 
-# Support
+### Error: Not logged in to Firebase
+```bash
+firebase login
+```
 
-If you would like to support this project for better version, you can give some support [here](https://buymeacoffee.com/imshakil).
+### Error: Node.js version too old
+Install Node.js 20 or higher from https://nodejs.org/
 
+### Error: Tests failed
+Fix the failing tests before deploying. Do not use `--skip-tests` unless absolutely necessary.
 
-Thanks
+## CI/CD Integration
 
-Regards ~ Shakil
+### GitHub Actions Example
 
+```yaml
+- name: Deploy Functions
+  env:
+    FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+  run: |
+    chmod +x functions/scripts/deploy.sh
+    ./functions/scripts/deploy.sh production --skip-tests
+```
 
+### GitLab CI Example
 
+```yaml
+deploy:production:
+  stage: deploy
+  script:
+    - chmod +x functions/scripts/deploy.sh
+    - ./functions/scripts/deploy.sh production --skip-tests
+  only:
+    - main
+```
 
+## Manual Deployment (Without Scripts)
+
+If you need to deploy manually:
+
+```bash
+cd functions
+npm ci
+npm test
+cd ..
+firebase deploy --only functions --set-env-vars CONTACT_REQUEST_RETENTION_DAYS=90
+```
+
+## Support
+
+For issues with deployment scripts:
+- Check the script output for specific error messages
+- Review Firebase logs: `firebase functions:log`
+- Consult the main README: `functions/README.md`
+- Check operations runbook: `functions/OPERATIONS_RUNBOOK.md`
