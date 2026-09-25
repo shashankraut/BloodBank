@@ -69,6 +69,7 @@ functions\scripts\deploy.bat production --skip-tests
 4. ⚠️  Ask for confirmation (unless `--dry-run`)
 5. 🚀 Deploy functions with environment-specific retention
 6. ✅ Verify deployment and save configuration
+7. Log details
 
 ### Environment-Specific Retention
 
